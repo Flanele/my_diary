@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diary Home</title>
+</head>
+<body>
+
+    <header class="header"></header>
+    <main class="main">
+        <div id="links-container"></div>
+
+        <button class="diary__adding-entry-btn">Write in a diary</button>
+        <dialog class="diary__dialog">
+            <div class="diary__dialog-inner">
+              <form class="diary__form">
+
+                    <label class="diary__title-label" for="title">Title:</label>
+                    <input class="diary__title-input" type="text" id="title" name="title" required>
+
+                        <textarea class="diary__text-input" id="text" name="text" required></textarea>
+
+                 </form>    
+                <button class="diary__close-modal" type="button">Close</button>
+                <button class="diary__save-entry" type="button">Save</button>
+            </div>
+        </dialog>
+    </main>
+
+    <script type="module" src="./index.js"></script>
+    <script type="module" src="./main.js"></script>
+</body>
+</html>
+

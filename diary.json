@@ -1,0 +1,18 @@
+[
+   {
+      "title": "First Title",
+      "date": "September 14",
+      "time": "17:04",
+      "text": "This is my first post.",
+      "page": 1,
+      "updated": null
+   },
+   {
+      "title": "Second Title",
+      "date": "September 15",
+      "time": "10:30",
+      "text": "This is my second post.",
+      "page": 2,
+      "updated": null
+   }
+]

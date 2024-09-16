@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Diary</title>
+</head>
+<body>
+
+    <header class="header"></header>
+
+    <main class="main">
+        <div class="conatiner">
+            <h1 class="title"></h1>
+            <p class="date"></p>
+            <p class="time"></p>
+            <p class="text"></p>
+            <p class="updated"></p>
+
+            <button class="page__edit-btn">Edit</button>
+
+            <dialog class="diary-edit__dialog">
+                <div class="diary-edit__dialog-inner">
+                  <form class="diary-edit__form">
+    
+                        <label class="diary-edit__title-label" for="title">Title:</label>
+                        <input class="diary-edit__title-input" type="text" id="title" name="title" required>
+    
+                            <textarea class="diary-edit__text-input" id="text" name="text" required></textarea>
+    
+                     </form>    
+                    <button class="diary-edit__close-modal" type="button">Close</button>
+                    <button class="diary-edit__save-btn" type="button">Save</button>
+                </div>
+            </dialog>
+
+
+            <button class="page__delete-btn">Delete entry</button>
+
+            <dialog class="page__dialog-confirmation">
+                <div class="page__dialog-inner">
+                        <p>Are you sure you want to delete this entry?</p>      
+                    <button class="page__delete-confirmation-btn" type="'button">
+                        Yes
+                    </button>
+                    <button class="page__close-modal" type="'button">
+                        No
+                    </button>
+                </div>
+            </dialog>
+        </div>
+    </main>
+   
+   
+
+<script type="module" src="./main.js"></script>
+</body>
+</html> 
