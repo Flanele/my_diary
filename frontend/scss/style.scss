@@ -69,8 +69,8 @@ input, textarea{
 textarea {
     min-height: 290px;
     max-height: 540px;
-    color: rgba(0, 0, 0, 0.65);  
 }
+
 
 input{
     height: 50px;
@@ -206,6 +206,7 @@ input{
     }
 }
 
+
 .scroll-block {
     overflow: hidden;
 }
@@ -215,7 +216,7 @@ input{
     max-width: 1220px;
     display: flex;
     flex-direction: column;
-    padding: 60px 100px 90px;
+    padding: 30px 100px 60px;
 }
 
 .page__dialog-inner{
@@ -227,7 +228,7 @@ input{
     display: flex;
     flex-direction: column;
     border-radius: 6px;
-    gap: 40px;
+    gap: 45px;
 }
 
 .diary__button-box,
@@ -236,7 +237,7 @@ input{
     display: flex;
     justify-content: flex-end;
     gap: 40px;
-    margin-top: 40px;
+    margin-top: 45px;
 }
 
 .diary__close-modal,
@@ -517,3 +518,4 @@ input{
   .hidden {
     display: none;
   }
+

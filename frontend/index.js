@@ -70,7 +70,7 @@ closeBtn.addEventListener('click', () => closeModal(dialog));
 
 saveBtn.addEventListener('click', async () => {
     let title = document.querySelector('#title').value;
-    const text = document.querySelector('#text').value;
+    const text = tinymce.get('text').getContent();
 
     // Если поле заголовка пустое, используем текущую дату в качестве заголовка
     if (!title) {

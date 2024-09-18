@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const preloader1 = document.getElementById('preloader1');
     preloader1.classList.remove('hidden');
 
-    // Получаем параметр страницы из URL
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get('page');
 
@@ -27,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.querySelector('.title').textContent = data.title;
             document.querySelector('.date').textContent = data.date;
             document.querySelector('.time').textContent = data.time;
-            document.querySelector('.text').textContent = data.text;
+            document.querySelector('.text').innerHTML = data.text;
             if (data.updated) {
                 document.querySelector('.updated').textContent = `Updated: ${data.updated}`;
             } else {
@@ -64,11 +63,14 @@ editBtn.addEventListener('click', async () => {
     const page = urlParams.get('page');
 
     if (page) {
-        const data = await getDiaryPage(page);
-        // Заполняем форму значениями из текущей записи
-        document.querySelector('.diary-edit__title-input').value = data.title;
-        document.querySelector('.diary-edit__text-input').value = data.text;
-        openModalAndBlockScroll(editDialog);
+        try {
+            const data = await getDiaryPage(page);
+            document.querySelector('.diary-edit__title-input').value = data.title;
+            tinymce.get('text').setContent(data.text);
+            openModalAndBlockScroll(editDialog);
+        } catch (error) {
+            console.error('Error fetching diary page:', error);
+        }
     }
 });
 
@@ -106,12 +108,11 @@ deleteConfirmation.addEventListener('click', async () => {
     }
 });
 
-// Обработчик для сохранения изменений
 editSaveBtn.addEventListener('click', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get('page');
     const title = document.querySelector('.diary-edit__title-input').value;
-    const text = document.querySelector('.diary-edit__text-input').value;
+    const text =  tinymce.get('text').getContent(); 
 
     if (!page) {
         console.error('Page parameter is missing!');
@@ -143,7 +144,7 @@ editSaveBtn.addEventListener('click', async () => {
         if (response.ok) {
             alert('Entry updated successfully!');
             closeModal(editDialog);
-            window.location.reload(); // Обновляем страницу для отображения изменений
+            window.location.reload(); 
         } else {
             throw new Error(`Error updating entry: ${response.status}`);
         }
