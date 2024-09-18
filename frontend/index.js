@@ -13,7 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
 document.querySelector('#title').placeholder = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
 async function fetchDiaryEntries() {
+    const preloader2 = document.getElementById('preloader2');
     try {
+        // Показываем прелоадер перед началом загрузки данных
+        preloader2.classList.remove('hidden');
+        
         const response = await fetch('http://localhost:8000/diary');
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -21,26 +25,44 @@ async function fetchDiaryEntries() {
 
         const entries = await response.json();
         generateLinks(entries);
+
     } catch (error) {
         console.error('Error fetching diary entries:', error);
+    } finally {
+        // Скрываем прелоадер после того, как данные загружены и обработаны
+        preloader2.classList.add('hidden');
     }
 }
 
 function generateLinks(entries) {
     const container = document.getElementById('links-container');
-    container.innerHTML = ''; // Убираем старые заголовки
 
     entries.forEach(entry => {
+        // Создаем строку таблицы
+        const row = document.createElement('tr');
+
+        // Создаем ячейку для даты
+        const dateCell = document.createElement('td');
+        dateCell.className = 'date'; 
+        dateCell.textContent = entry.date; // Добавляем дату
+        row.appendChild(dateCell);
+
+        // Создаем ячейку для ссылки
+        const linkCell = document.createElement('td');
         const link = document.createElement('a');
         link.href = `page.html?page=${entry.page}`;
-        link.textContent = entry.title;
+        link.textContent = entry.title; 
         link.className = 'diary-link';
-        container.appendChild(link);
+        linkCell.appendChild(link);
+        row.appendChild(linkCell);
 
-        const br = document.createElement('br');
-        container.appendChild(br);
+        // Добавляем строку в начало таблицы
+        container.insertBefore(row, container.firstChild);
     });
 }
+
+document.addEventListener('DOMContentLoaded', fetchDiaryEntries);
+
 
 // Используем импортированные функции
 openBtn.addEventListener('click', () => openModalAndBlockScroll(dialog));

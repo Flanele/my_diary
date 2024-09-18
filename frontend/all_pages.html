@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diary Home</title>
+    <title>My Entries</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alata&family=Anek+Telugu&display=swap" rel="stylesheet">
@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    <div class="loader-eyes" id="preloader2"></div>
     <div class="wrapper">
 
         <header class="header">
@@ -26,7 +27,7 @@
                             <li class="header-nav__item">
                                 <a href="./all_pages.html" class="header-nav__link">My Entries</a>
                             </li>
-                        </ul> 
+                        </ul>
 
                     </nav>
 
@@ -45,41 +46,49 @@
         </header>
 
 
-
-        <main class="main main__home">
+        <main class="main main__all-pages">
             <div class="container">
-                <div class="main__inner">
+                <div class="links-container__wrapper">
+                    <div class="links-container__wrapper-inner">
+                        <!-- Таблица для ссылок -->
+                        <table class="links-table" id="links-table">
+                            <tbody id="links-container">
+                                <!-- Ссылки будут добавляться сюда -->
+                            </tbody>
+                        </table>
 
-
-                    <button class="diary__adding-entry-btn">Write in a diary</button>
-                    <dialog class="dialog diary__dialog">
-                        <div class="diary__dialog-inner">
-                            <form class="diary__form">
-
-                                <label class="diary__title-label" for="title">Title:</label>
-                                <input class="diary__title-input" type="text" id="title" name="title" required>
-
-                                <textarea class="diary__text-input" id="text" name="text" required></textarea>
-
-                            </form>
-                            <div class="diary__button-box">
-                                <button class="diary__close-modal" type="button">Close</button>
-                                <button class="diary__save-entry" type="button">Save</button>
-                            </div>
-                        </div>
-                    </dialog>
-
-
-
+                    </div>
                 </div>
+                <button class="diary__adding-entry-btn diary__btn-all-pages">Write in a diary</button>
+                <dialog class="dialog diary__dialog">
+                    <div class="diary__dialog-inner">
+                        <form class="diary__form">
+
+                            <label class="diary__title-label" for="title">Title:</label>
+                            <input class="diary__title-input" type="text" id="title" name="title" required>
+
+                            <textarea class="diary__text-input" id="text" name="text" required></textarea>
+
+                        </form>
+                        <div class="diary__button-box">
+                            <button class="diary__close-modal" type="button">Close</button>
+                            <button class="diary__save-entry" type="button">Save</button>
+                        </div>
+                    </div>
+                </dialog>
+
+
+
             </div>
+
         </main>
 
         <footer class="footer"></footer>
     </div>
-    <script type="module" src="./index.js"></script>
-    <script type="module" src="./main.js"></script>
+
     <script src="./styles.js"></script>
+    <script type="module" src="./index.js"></script>
+    <script type="module" src="./main.js"></script>   
 </body>
 
 </html>

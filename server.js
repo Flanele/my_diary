@@ -10,7 +10,7 @@ app.use(express.json());
 const defaultDiary = [
     {
         title: 'First Title',
-        date: 'September 14',
+        date: '14.09.2024',
         time: '17:04',
         text: 'This is my first post.',
         page: 1,
@@ -18,7 +18,7 @@ const defaultDiary = [
     },
     {
         title: 'Second Title',
-        date: 'September 15',
+        date: '15.09.2024',
         time: '10:30',
         text: 'This is my second post.',
         page: 2,
@@ -53,12 +53,17 @@ app.get('/diary/:page', (req, res) => {
 
 app.post('/diary', (req, res) => {
     const newEntry = req.body;
-    newEntry.page = entries.length + 1;
-    newEntry.updated = null; 
+
+    // Находим максимальный номер страницы среди всех записей
+    const maxPage = entries.reduce((max, entry) => entry.page > max ? entry.page : max, 0);
+    
+    newEntry.page = maxPage + 1; // Назначаем следующий номер страницы
+    newEntry.updated = null;
     entries.push(newEntry);
-    fs.writeFileSync(diaryFile, JSON.stringify(entries, null, 3)); // Обновляем файл
+    fs.writeFileSync(diaryFile, JSON.stringify(entries, null, 3)); 
     res.status(201).json(newEntry);
 });
+
 
 app.delete('/diary/:page', (req, res) => {
     const page = parseInt(req.params.page);

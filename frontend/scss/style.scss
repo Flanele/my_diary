@@ -1,0 +1,519 @@
+@import 'reset';
+
+$purple-gradient: linear-gradient(90deg, #42275A 0%, #734B6D 73.6%);
+$purple: #45295B;
+$purple-light: #6F486C;
+$purple-link--active: rgba(101, 65, 104, 0.45);
+$purple-form: #603D66;
+$button-beige:  rgba(255, 248, 234, 0.4);
+$button-beige--hover: rgba(255, 241, 209, 0.7);
+
+html, body{
+    height: 100%;
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
+}
+
+.main {
+	flex: 1 0 auto;
+    
+}
+
+.main__home {
+     position: relative;
+
+     &::after{
+        content: url('/frontend/images/bg-decor.svg');
+        z-index: -2;
+        position: absolute;
+        top: -100px;
+        left: 380px;
+    }
+}
+
+.footer {
+	flex: 0 0 auto;
+}
+
+body {
+    font-family: "Alata", "Anek Telugu", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 24px;
+    background-color: #ffff;
+    line-height: 37px;
+}
+
+button{
+    cursor: pointer;
+}
+
+.container {
+    max-width: 1230px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+
+input, textarea{
+    min-width: 760px;
+    max-width: 760px;
+    font-family: "Anek Telugu", sans-serif;
+    padding: 10px;
+}
+
+textarea {
+    min-height: 290px;
+    max-height: 540px;
+    color: rgba(0, 0, 0, 0.65);  
+}
+
+input{
+    height: 50px;
+    color: $purple;
+    &::placeholder{
+        color: $purple;
+    }
+}
+
+
+.header {
+    background: $purple-gradient;
+    padding-top: 30px;
+    padding-bottom: 21px;
+    margin-bottom: 120px;
+    &__inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.header-nav__links,
+.header-nav__account {
+    display: flex;
+    gap: 32px;
+}
+
+.header-nav__link,
+.header-nav__login-btn {
+    color: #ffff;
+    transition: all .2s ease;
+}
+
+.header-nav__login-btn {
+    width: 112px;
+    height: 50px;
+    background: rgba(25, 19, 19, 0.28);
+    border-radius: 15px;
+    position: relative;
+    padding-bottom: 10px;
+    padding-top: 5px;
+    top: -5px;
+    &:hover{
+        background: rgba(25, 19, 19, 0.5);
+        color: rgba(255, 248, 234, 0.98);
+    }
+}
+
+.header-nav__link {
+    &:hover{
+        color: rgba(255, 248, 234, 0.98);
+    }
+}
+
+.header-nav__link.active {
+    background: $purple-link--active;
+    padding: 35px 15px 25px;  
+}
+
+.footer {
+    background-color: $purple;
+    min-height: 95px;
+}
+
+
+.main__inner {
+    width: 100%;
+    height: 277px;
+    background: $purple-gradient;
+    position: relative;
+    border-radius: 6px;
+    background-size: 180% 160%;
+    transition: background-position .7s ease;
+
+     &:hover{
+        background-position: 100% 0;
+    }
+
+    &::after{
+        content: url('/frontend/images/diary-img.png');
+        position: absolute;
+        width: 417px;
+        height: 367px;
+        right: 46px;
+        top: 35px;
+        transition: transform .7s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    &:hover::after {
+        transform: translateY(-2px) scale(1.05);
+    }
+
+    &::before{
+        content: '';
+        position: absolute;
+        z-index: -1;
+        width: 395px;
+        height: 388px;
+        background: $purple-light;
+        border-radius: 360px;
+        right: 60px;
+        top: 33px;
+
+    }
+   
+}
+
+.diary__adding-entry-btn {
+    width: 264px;
+    background: $button-beige;
+    border-radius: 15px;
+    color: #ffff;
+    padding: 12px 25px;
+    margin-top: 90px;
+    margin-left: 163px;
+    transition: all .3s ease;
+
+    &:hover {
+       background: $button-beige--hover;
+    }
+
+}
+
+.dialog{
+    border: none;
+    border-radius: 6px;
+    background-color: $purple-form;
+    color: #ffff;
+
+    &::backdrop {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+}
+
+.scroll-block {
+    overflow: hidden;
+}
+
+.diary__dialog-inner,
+.diary-edit__dialog-inner {
+    max-width: 1220px;
+    display: flex;
+    flex-direction: column;
+    padding: 60px 100px 90px;
+}
+
+.page__dialog-inner{
+    padding: 40px 40px 20px;
+}
+
+.diary__form,
+.diary-edit__form {
+    display: flex;
+    flex-direction: column;
+    border-radius: 6px;
+    gap: 40px;
+}
+
+.diary__button-box,
+.diary-edit__button-box,
+.page__button-box{
+    display: flex;
+    justify-content: flex-end;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.diary__close-modal,
+.diary-edit__close-modal,
+.page__close-modal{
+    background: $purple-link--active;
+    border-radius: 6px;
+    color: #fff;
+    padding: 10px 30px;
+    transition: all .3s ease;
+    &:hover{
+        background-color: $purple-light;
+        color: rgba(255, 248, 234, 0.98);
+    }
+}
+
+.diary__save-entry,
+.diary-edit__save-btn,
+.page__delete-confirmation-btn{
+    background: $button-beige;
+    border-radius: 6px;
+    color: #fff;
+    padding: 10px 30px;
+    transition: all .3s ease;
+    &:hover{
+        background: $button-beige--hover;
+    }
+
+}
+
+.main__all-pages{
+    position: relative;
+    &::before{
+        content: url('/frontend/images/bg-all_pages.png');
+        position: absolute;
+        width: 710px;
+        height: 655px;
+        opacity: .8;
+        left: 50%;
+        top: 35%;
+        transform: translate(-50%, -50%);
+        z-index: -2;
+    }
+}
+
+.links-container__wrapper {
+    height: 490px;
+    width: 100%;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(66, 39, 90, 0.4) 0%, rgba(115, 75, 109, 0.4) 40%);
+    border-radius: 6px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.links-container__wrapper-inner {
+    max-height: 370px;
+    overflow-y: auto;  
+    display: flex;
+    flex-direction: column; /* Изменено для правильного выравнивания */
+    padding-left: 60px;
+    padding-right: 60px;
+}
+
+.links-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    & td{
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    word-wrap: break-word;
+    overflow: hidden;
+
+    }
+}
+
+
+
+.links-table td.date {
+    width: 110px; 
+    background: linear-gradient(180deg, rgba(66, 39, 90, 0.4) 0%, rgba(115, 75, 109, 0.4) 50%);
+    color: #ffff; 
+    font-size: 18px;
+    padding-left: 20px;
+}
+
+.links-table td a {
+    color: #ffff;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    margin-right: 110px;
+    padding-left: 20px;
+}
+
+
+
+.diary__btn-all-pages {
+    margin-top: 45px;
+    margin-left: 39%;
+    background: $purple-link--active;
+    
+    &:hover{
+        background: $purple-light;
+        opacity: .8;
+    }
+}
+
+.page {
+   position: relative;
+   z-index: 1;
+   margin-bottom: 60px;
+   min-height: 800px;
+   display: flex;
+   flex-direction: column;
+
+   &::before{
+        content: "";
+        position: absolute;
+        width: 100%;
+        min-height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url(/frontend/images/page-bg.jpg) center center no-repeat;
+        background-size: cover;
+        opacity: 0.7; 
+        z-index: -1; 
+   }
+
+   &::after{
+        content: url(/frontend/images/diary-img-small.png);
+        position: relative;
+        left: -50px;
+        opacity: 0.9;
+
+   }
+}
+
+.title{
+    font-size: 32px;
+    color: $purple;
+    text-align: center;
+    margin-bottom: 120px;
+}
+
+.text{
+    max-width: 100%;
+    word-wrap: break-word; 
+    overflow-wrap: break-word; 
+    text-align: center;
+    padding-right: 20px;
+    padding-left: 20px;
+    color: rgba(0, 0, 0, 0.74);
+    margin-bottom: 80px;
+    white-space: pre-wrap;
+    
+}
+
+.updated {
+    font-size: 16px;
+    color: rgba(25, 19, 19, 0.28);
+    text-align: end;
+    padding-right: 20px;
+    margin-bottom: 50px;
+}
+
+.page__time{
+    display: flex;
+    gap: 40px;
+    justify-content: end;
+    align-items: flex-end;
+    font-size: 16px;
+    color: rgba(25, 19, 19, 0.28);
+
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+
+.page__button-box{
+    display: flex;
+    gap: 20px;
+    justify-content: end;
+    padding-right: 20px;
+    margin-bottom: 40px;
+
+}
+
+.page__edit-btn,
+.page__delete-btn{   
+    border-radius: 6px;
+    color: #fff;
+    padding: 10px 30px;
+    transition: all .3s ease;
+}
+
+.page__edit-btn{
+    background-color: #BFAAA7;
+
+    &:hover{
+        background-color: #d2bbb8;
+    }
+}
+
+.page__delete-btn{
+    background-color: #F9E2AF;
+
+    &:hover{
+        background-color: #feeecc;
+    }
+}
+
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: calc(6*30px);
+    height: 50px;
+    display: flex;
+    color: #8d7958;
+    filter: drop-shadow(30px 25px 0 currentColor) drop-shadow(60px 0 0 currentColor) drop-shadow(120px 0 0 currentColor);
+    clip-path: inset(0 100% 0 0);
+    animation: l12 2s infinite steps(7);
+  }
+  .loader:before {
+    content: "";
+    width: 30px;
+    height: 25px;
+    --c:no-repeat radial-gradient(farthest-side,currentColor 92%,#0000);
+    background: 
+      var(--c) left /70% 70%,
+      var(--c) right/20% 20%,
+      var(--c) top    0 right 15%/20% 20%,
+      var(--c) bottom 0 right 15%/20% 20%;
+  }
+  @keyframes l12 {
+    100% {clip-path: inset(0 -30px 0 0)}
+  }
+
+
+.loader-eyes {
+    position: fixed; 
+    top: 50%;        
+    left: 50%;       
+    transform: translate(-50%, -50%); 
+    z-index: 1000;   
+    height: 30px;
+    aspect-ratio: 2;
+    display: grid;
+    background:
+      radial-gradient(farthest-side,#000 15%,#0000 18%)0 0/50% 100%,
+      radial-gradient(50% 100% at 50% 160%,#fff 95%,#0000) 0 0   /50% 50%,
+      radial-gradient(50% 100% at 50% -60%,#fff 95%,#0000) 0 100%/50% 50%;
+    background-repeat: repeat-x;
+    animation: l2 1.5s infinite linear;
+  }
+  @keyframes l2 {
+    0%,
+    15% {background-position:0   0,0 0,0 100%}
+    20%,
+    40% {background-position:5px 0,0 0,0 100%}
+    45%,
+    55% {background-position:0   0,0 0,0 100%}
+    60%,
+    80%{background-position:-5px 0,0 0,0 100%}
+    85%,
+    100% {background-position:0   0,0 0,0 100%}
+  } 
+  
+  .hidden {
+    display: none;
+  }

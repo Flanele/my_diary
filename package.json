@@ -13,5 +13,13 @@
     "cors": "^2.8.5",
     "express": "^4.21.0",
     "fs": "^0.0.1-security"
+  },
+  "devDependencies": {
+    "del": "^6.0.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^5.1.0",
+    "sass": "^1.58.0"
   }
 }

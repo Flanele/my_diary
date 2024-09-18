@@ -12,14 +12,18 @@ const editDialog = document.querySelector('.diary-edit__dialog');
 const editCloseBtn = document.querySelector('.diary-edit__close-modal');
 const editSaveBtn = document.querySelector('.diary-edit__save-btn');
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // Показываем прелоадер перед началом загрузки данных
+    const preloader1 = document.getElementById('preloader1');
+    preloader1.classList.remove('hidden');
+
     // Получаем параметр страницы из URL
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get('page');
 
     if (page) {
-        getDiaryPage(page).then(data => {
-            // Обновляем элементы на странице
+        try {
+            const data = await getDiaryPage(page);
             document.querySelector('.title').textContent = data.title;
             document.querySelector('.date').textContent = data.date;
             document.querySelector('.time').textContent = data.time;
@@ -29,14 +33,17 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 document.querySelector('.updated').textContent = '';
             }
-        }).catch(error => {
+        } catch (error) {
             console.error('Error fetching diary page:', error);
-        });
+        } finally {
+            // Скрываем прелоадер после того, как данные загружены и страница обновлена
+            preloader1.classList.add('hidden');
+        }
     } else {
         console.error('Page parameter not found in URL');
+        preloader1.classList.add('hidden'); 
     }
 });
-
 
 async function getDiaryPage(page) {
     const url = `http://localhost:8000/diary/${page}`;
@@ -49,6 +56,7 @@ async function getDiaryPage(page) {
     const data = await response.json();
     return data;
 }
+
 
 
 editBtn.addEventListener('click', async () => {

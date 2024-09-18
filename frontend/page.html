@@ -1,58 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Diary</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alata&family=Anek+Telugu&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.min.css">
 </head>
+
+
 <body>
+    <div class="loader" id="preloader1"></div>
+    <div class="wrapper">
+        <header class="header">
+            <div class="container">
+                <div class="header__inner">
+                    <nav class="header-nav">
 
-    <header class="header"></header>
+                        <ul class="header-nav__links">
+                            <li class="header-nav__item">
+                                <a href="./index.html" class="header-nav__link">Home</a>
+                            </li>
+                            <li class="header-nav__item">
+                                <a href="./all_pages.html" class="header-nav__link">My Entries</a>
+                            </li>
+                        </ul>
 
-    <main class="main">
-        <div class="conatiner">
-            <h1 class="title"></h1>
-            <p class="date"></p>
-            <p class="time"></p>
-            <p class="text"></p>
-            <p class="updated"></p>
+                    </nav>
 
-            <button class="page__edit-btn">Edit</button>
+                    <nav class="header-nav">
+                        <ul class="header-nav__account">
+                            <li class="header-nav__account-item">
+                                <a href="#" class="header-nav__link">My Account</a>
+                            </li>
+                            <li class="header-nav__account-item">
+                                <button class="header-nav__login-btn">Login</button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
 
-            <dialog class="diary-edit__dialog">
-                <div class="diary-edit__dialog-inner">
-                  <form class="diary-edit__form">
-    
-                        <label class="diary-edit__title-label" for="title">Title:</label>
-                        <input class="diary-edit__title-input" type="text" id="title" name="title" required>
-    
+        <main class="main main__page">
+            <div class="container">
+                <div class="page">
+                    <h1 class="title"></h1>
+                    <p class="updated"></p>
+                    <p class="text"></p>
+                    <div class="page__time">
+                        <p class="date"></p>
+                        <p class="time"></p>
+                    </div>
+
+                </div>
+
+                <div class="page__button-box">
+                    <button class="page__edit-btn">Edit</button>
+
+                    <button class="page__delete-btn">Delete entry</button>
+                </div>
+
+
+
+                <dialog class="dialog diary-edit__dialog">
+                    <div class="diary-edit__dialog-inner">
+                        <form class="diary-edit__form">
+
+                            <label class="diary-edit__title-label" for="title">Title:</label>
+                            <input class="diary-edit__title-input" type="text" id="title" name="title" required>
+
                             <textarea class="diary-edit__text-input" id="text" name="text" required></textarea>
-    
-                     </form>    
-                    <button class="diary-edit__close-modal" type="button">Close</button>
-                    <button class="diary-edit__save-btn" type="button">Save</button>
-                </div>
-            </dialog>
+
+                        </form>
+                        <div class="diary-edit__button-box">
+                            <button class="diary-edit__close-modal" type="button">Close</button>
+                            <button class="diary-edit__save-btn" type="button">Save</button>
+                        </div>
+                    </div>
+                </dialog>
 
 
-            <button class="page__delete-btn">Delete entry</button>
 
-            <dialog class="page__dialog-confirmation">
-                <div class="page__dialog-inner">
-                        <p>Are you sure you want to delete this entry?</p>      
-                    <button class="page__delete-confirmation-btn" type="'button">
-                        Yes
-                    </button>
-                    <button class="page__close-modal" type="'button">
-                        No
-                    </button>
-                </div>
-            </dialog>
-        </div>
-    </main>
-   
-   
+                <dialog class="dialog page__dialog-confirmation dialog">
+                    <div class="page__dialog-inner">
+                        <p>Are you sure you want to delete this entry?</p>
+                        <div class="page__button-box">
+                            <button class="page__delete-confirmation-btn" type="'button">
+                            Yes
+                            </button>
+                            <button class="page__close-modal" type="'button">
+                                No
+                            </button>
+                        </div>
 
-<script type="module" src="./main.js"></script>
+                    </div>
+                </dialog>
+            </div>
+        </main>
+
+
+        <footer class="footer"></footer>
+    </div>
+    <script src="./styles.js"></script>
+    <script type="module" src="./main.js"></script>
 </body>
-</html> 
+
+
+</html>
