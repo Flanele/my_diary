@@ -9,13 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchDiaryEntries();
 });
 
-// Делаем плейсхолдер для заголовка
 document.querySelector('#title').placeholder = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
 async function fetchDiaryEntries() {
     const preloader2 = document.getElementById('preloader2');
     try {
-        // Показываем прелоадер перед началом загрузки данных
         preloader2.classList.remove('hidden');
         
         const response = await fetch('http://localhost:8000/diary');
@@ -29,7 +27,6 @@ async function fetchDiaryEntries() {
     } catch (error) {
         console.error('Error fetching diary entries:', error);
     } finally {
-        // Скрываем прелоадер после того, как данные загружены и обработаны
         preloader2.classList.add('hidden');
     }
 }
@@ -38,16 +35,13 @@ function generateLinks(entries) {
     const container = document.getElementById('links-container');
 
     entries.forEach(entry => {
-        // Создаем строку таблицы
         const row = document.createElement('tr');
 
-        // Создаем ячейку для даты
         const dateCell = document.createElement('td');
         dateCell.className = 'date'; 
-        dateCell.textContent = entry.date; // Добавляем дату
+        dateCell.textContent = entry.date; 
         row.appendChild(dateCell);
 
-        // Создаем ячейку для ссылки
         const linkCell = document.createElement('td');
         const link = document.createElement('a');
         link.href = `page.html?page=${entry.page}`;
@@ -56,15 +50,10 @@ function generateLinks(entries) {
         linkCell.appendChild(link);
         row.appendChild(linkCell);
 
-        // Добавляем строку в начало таблицы
         container.insertBefore(row, container.firstChild);
     });
 }
 
-document.addEventListener('DOMContentLoaded', fetchDiaryEntries);
-
-
-// Используем импортированные функции
 openBtn.addEventListener('click', () => openModalAndBlockScroll(dialog));
 closeBtn.addEventListener('click', () => closeModal(dialog));
 
@@ -72,7 +61,6 @@ saveBtn.addEventListener('click', async () => {
     let title = document.querySelector('#title').value;
     const text = tinymce.get('text').getContent();
 
-    // Если поле заголовка пустое, используем текущую дату в качестве заголовка
     if (!title) {
         title = new Date().toLocaleDateString('en-US', {
             year: 'numeric',
@@ -106,7 +94,3 @@ saveBtn.addEventListener('click', async () => {
         alert('Please fill in the text field.');
     }
 });
-
-
-
-
