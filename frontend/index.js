@@ -1,4 +1,4 @@
-import { openModalAndBlockScroll, returnScroll, closeModal } from './modal.js';
+import { openModalAndBlockScroll, closeModal } from './modal.js';
 
 const dialog = document.querySelector('.diary__dialog');
 const openBtn = document.querySelector('.diary__adding-entry-btn');

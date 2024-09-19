@@ -12,13 +12,15 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.21.0",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "gulp-htmlmin": "^5.0.1"
   },
   "devDependencies": {
     "del": "^6.0.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-concat": "^2.6.1",
+    "gulp-file-include": "^2.3.0",
     "gulp-sass": "^5.1.0",
     "sass": "^1.58.0"
   }

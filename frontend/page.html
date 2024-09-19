@@ -10,15 +10,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Alata&family=Anek+Telugu&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.min.css">
 
-    <script src="https://cdn.tiny.cloud/1/n15loy9aszb5vvxo9i3a96hqwkpq4a321vtxypwptftqxlk7/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="/tinymce/js/tinymce/tinymce.min.js"></script>
     <script>
           tinymce.init({
     selector: '#text',
     content_css: './css/style/min.css',
-    plugins: 'advlist autolink link image lists charmap preview textcolor',
+    plugins: 'advlist autolink link image lists charmap preview',
     toolbar: 'undo redo | styleselect | bold italic underline | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
     menubar: false,
     custom_colors: true,
+    branding: false,
 
     textcolor_map: [
         "000000", "Black",
@@ -62,34 +63,35 @@
     <div class="loader" id="preloader1"></div>
     <div class="wrapper">
         <header class="header">
-            <div class="container">
-                <div class="header__inner">
-                    <nav class="header-nav">
+    <div class="container">
+        <div class="header__inner">
+            <nav class="header-nav">
 
-                        <ul class="header-nav__links">
-                            <li class="header-nav__item">
-                                <a href="./index.html" class="header-nav__link">Home</a>
-                            </li>
-                            <li class="header-nav__item">
-                                <a href="./all_pages.html" class="header-nav__link">My Entries</a>
-                            </li>
-                        </ul>
+                <ul class="header-nav__links">
+                    <li class="header-nav__item">
+                        <a href="./index.html" class="header-nav__link">Home</a>
+                    </li>
+                    <li class="header-nav__item">
+                        <a href="./all_pages.html" class="header-nav__link">My Entries</a>
+                    </li>
+                </ul>
 
-                    </nav>
+            </nav>
 
-                    <nav class="header-nav">
-                        <ul class="header-nav__account">
-                            <li class="header-nav__account-item">
-                                <a href="#" class="header-nav__link">My Account</a>
-                            </li>
-                            <li class="header-nav__account-item">
-                                <button class="header-nav__login-btn">Login</button>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </header>
+            <nav class="header-nav">
+                <ul class="header-nav__account">
+                    <li class="header-nav__account-item">
+                        <a href="#" class="header-nav__link">My Account</a>
+                    </li>
+                    <li class="header-nav__account-item">
+                        <button class="header-nav__login-btn">Login</button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
 
         <main class="main main__page">
             <div class="container">
