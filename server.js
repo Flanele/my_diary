@@ -1,102 +1,94 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const sequelize = require('./database');  
+const Page = require('./Page');  
 const fs = require('fs');
 const PORT = 8000;
+
+sequelize.sync().then(() => console.log('db is ready'));
 
 app.use(cors());
 app.use(express.json());
 
-const defaultDiary = [
-    {
-        title: 'First Title',
-        date: '14.09.2024',
-        time: '17:04',
-        text: 'This is my first post.',
-        page: 1,
-        updated: null 
-    },
-    {
-        title: 'Second Title',
-        date: '15.09.2024',
-        time: '10:30',
-        text: 'This is my second post.',
-        page: 2,
-        updated: null 
-    }
-];
-
-// Проверяем, существует ли файл
-const diaryFile = 'diary.json';
-if (!fs.existsSync(diaryFile)) {
-    // Если файл не существует, создаем его с дефолтными записями
-    fs.writeFileSync(diaryFile, JSON.stringify(defaultDiary, null, 3));
-}
-
-const data = fs.readFileSync(diaryFile);
-const entries = JSON.parse(data);
-console.log(entries);
-
-app.get('/diary', (req, res) => {
-    res.status(200).json(entries);
-});
-
-app.get('/diary/:page', (req, res) => {
-    const page = parseInt(req.params.page);
-    const entry = entries.find(diaryEntry => diaryEntry.page === page);
-    if (entry) {
-        res.status(200).json(entry);
-    } else {
-        res.status(404).json({ error: 'Entry not found' });
+app.get('/diary', async (req, res) => {
+    try {
+        const entries = await Page.findAll();
+        res.status(200).json(entries);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error retrieving entries');
     }
 });
 
-app.post('/diary', (req, res) => {
-    const newEntry = req.body;
-
-    // Находим максимальный номер страницы среди всех записей
-    const maxPage = entries.reduce((max, entry) => entry.page > max ? entry.page : max, 0);
-    
-    newEntry.page = maxPage + 1; // Назначаем следующий номер страницы
-    newEntry.updated = null;
-    entries.push(newEntry);
-    fs.writeFileSync(diaryFile, JSON.stringify(entries, null, 3)); 
-    res.status(201).json(newEntry);
-});
-
-
-app.delete('/diary/:page', (req, res) => {
-    const page = parseInt(req.params.page);
-    const index = entries.findIndex(diaryEntry => diaryEntry.page === page);
-
-    if (index !== -1) {
-        entries.splice(index, 1); // Удаляет запись из массива
-        fs.writeFileSync(diaryFile, JSON.stringify(entries, null, 3)); 
-        res.status(200).json({ message: 'Entry deleted successfully' });
-    } else {
-        res.status(404).json({ error: 'Entry not found' });
+app.get('/diary/:id', async (req, res) => {
+    const requestedId = parseInt(req.params.id);
+    try {
+        const entry = await Page.findOne({ where: { id: requestedId } });
+        if (entry) {
+            res.status(200).json(entry);
+        } else {
+            res.status(404).json({ error: 'Entry not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error retrieving entry');
     }
 });
 
-app.put('/diary/:page', (req, res) => {
-    const page = parseInt(req.params.page);
+app.post('/diary', async (req, res) => {
     const { title, text } = req.body;
 
-    const index = entries.findIndex(diaryEntry => diaryEntry.page === page);
+    // Если заголовок не указан, используем текущую дату
+    const entryTitle = title || new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
 
-    if (index !== -1) {
-        const entry = entries[index];
-        if (title) entry.title = title;
-        if (text) entry.text = text;
-
-        // Обновляем дату и время редактирования
-        entry.updated = new Date().toLocaleString('en-GB', { timeZone: 'UTC' });
-
-        fs.writeFileSync(diaryFile, JSON.stringify(entries, null, 3));
-        res.status(200).json(entry);
-    } else {
-        res.status(404).json({ error: 'Entry not found' });
+    try {
+        const newEntry = await Page.create({
+            title: entryTitle,
+            text
+        });
+        res.status(201).json(newEntry);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error saving entry');
     }
+});
+
+
+app.delete('/diary/:id', async (req, res) => {
+    const id = parseInt(req.params.id);
+    const entry = await Page.findOne({ where: { id } });
+
+    if (!entry) {
+        return res.status(404).json({ error: 'Entry not found' });
+    }
+
+    await Page.destroy({ where: { id } });
+    res.status(200).json({ message: 'Entry deleted successfully' });
+});
+
+
+app.put('/diary/:id', async (req, res) => {
+    const id = parseInt(req.params.id);
+    const { title, text } = req.body;
+
+    const entry = await Page.findOne({ where: { id } });
+
+    if (!entry) {
+        return res.status(404).json({ error: 'Entry not found' });
+    }
+
+    if (title) entry.title = title;
+    if (text) entry.text = text;
+
+    entry.updated = new Date().toLocaleString('en-GB', { timeZone: 'UTC' });
+
+    await entry.save();
+    res.status(200).json(entry);
 });
 
 app.listen(PORT, () => {

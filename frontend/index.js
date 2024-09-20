@@ -39,12 +39,12 @@ function generateLinks(entries) {
 
         const dateCell = document.createElement('td');
         dateCell.className = 'date'; 
-        dateCell.textContent = entry.date; 
+        dateCell.textContent = new Date(entry.createdAt).toLocaleDateString('ru-RU'); 
         row.appendChild(dateCell);
 
         const linkCell = document.createElement('td');
         const link = document.createElement('a');
-        link.href = `page.html?page=${entry.page}`;
+        link.href = `page.html?id=${entry.id}`; // Изменено с page на id
         link.textContent = entry.title; 
         link.className = 'diary-link';
         linkCell.appendChild(link);
@@ -77,9 +77,7 @@ saveBtn.addEventListener('click', async () => {
             },
             body: JSON.stringify({
                 title, 
-                text, 
-                date: new Date().toLocaleDateString(),
-                time: new Date().toLocaleTimeString()
+                text
             })
         });
 

@@ -93,6 +93,10 @@ input{
     }
 }
 
+.header-index{
+    margin-bottom: 180px;
+}
+
 .header-nav__links,
 .header-nav__account {
     display: flex;
@@ -317,13 +321,13 @@ input{
 }
 
 
-
 .links-table td.date {
     width: 110px; 
     background: linear-gradient(180deg, rgba(66, 39, 90, 0.4) 0%, rgba(115, 75, 109, 0.4) 50%);
     color: #ffff; 
     font-size: 18px;
-    padding-left: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .links-table td a {

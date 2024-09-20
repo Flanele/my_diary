@@ -18,17 +18,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     preloader1.classList.remove('hidden');
 
     const urlParams = new URLSearchParams(window.location.search);
-    const page = urlParams.get('page');
+    const id = urlParams.get('id'); 
 
-    if (page) {
+    if (id) {
         try {
-            const data = await getDiaryPage(page);
+            const data = await getDiaryPage(id); 
             document.querySelector('.title').textContent = data.title;
-            document.querySelector('.date').textContent = data.date;
-            document.querySelector('.time').textContent = data.time;
+            document.querySelector('.date').textContent = new Date(data.createdAt).toLocaleDateString('ru-RU'); // Формат 20.09.2024
+            document.querySelector('.time').textContent = new Date(data.createdAt).toLocaleTimeString('ru-RU');
             document.querySelector('.text').innerHTML = data.text;
-            if (data.updated) {
-                document.querySelector('.updated').textContent = `Updated: ${data.updated}`;
+            if (data.updatedAt) {
+                document.querySelector('.updated').textContent = `Updated: ${new Date(data.updatedAt).toLocaleDateString('ru-RU')}`; // Формат 20.09.2024
             } else {
                 document.querySelector('.updated').textContent = '';
             }
@@ -39,13 +39,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             preloader1.classList.add('hidden');
         }
     } else {
-        console.error('Page parameter not found in URL');
-        preloader1.classList.add('hidden'); 
+        console.error('ID parameter not found in URL');
+        preloader1.classList.add('hidden');
     }
 });
 
-async function getDiaryPage(page) {
-    const url = `http://localhost:8000/diary/${page}`;
+async function getDiaryPage(id) {
+    const url = `http://localhost:8000/diary/${id}`;
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -56,15 +56,13 @@ async function getDiaryPage(page) {
     return data;
 }
 
-
-
 editBtn.addEventListener('click', async () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const page = urlParams.get('page');
+    const id = urlParams.get('id');
 
-    if (page) {
+    if (id) {
         try {
-            const data = await getDiaryPage(page);
+            const data = await getDiaryPage(id);
             document.querySelector('.diary-edit__title-input').value = data.title;
             tinymce.get('text').setContent(data.text);
             openModalAndBlockScroll(editDialog);
@@ -80,15 +78,15 @@ backToEntryBtn.addEventListener('click', () => closeModal(confirmationDialog));
 
 deleteConfirmation.addEventListener('click', async () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const page = urlParams.get('page');
+    const id = urlParams.get('id');
     
-    if (!page) {
-        console.error('Page parameter is missing!');
-        alert('Page parameter is missing!');
+    if (!id) {
+        console.error('ID parameter is missing!');
+        alert('ID parameter is missing!');
         return;
     }
 
-    const url = `http://localhost:8000/diary/${page}`;
+    const url = `http://localhost:8000/diary/${id}`;
     console.log(`Sending DELETE request to URL: ${url}`); // Debugging line
 
     try {
@@ -110,13 +108,13 @@ deleteConfirmation.addEventListener('click', async () => {
 
 editSaveBtn.addEventListener('click', async () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const page = urlParams.get('page');
+    const id = urlParams.get('id'); // Изменено с 'page' на 'id'
     const title = document.querySelector('.diary-edit__title-input').value;
-    const text =  tinymce.get('text').getContent(); 
+    const text = tinymce.get('text').getContent(); 
 
-    if (!page) {
-        console.error('Page parameter is missing!');
-        alert('Page parameter is missing!');
+    if (!id) {
+        console.error('ID parameter is missing!');
+        alert('ID parameter is missing!');
         return;
     }
 
@@ -125,11 +123,11 @@ editSaveBtn.addEventListener('click', async () => {
         return;
     }
 
-    const url = `http://localhost:8000/diary/${page}`;
+    const url = `http://localhost:8000/diary/${id}`;
     const updatedData = {
         title,
         text,
-        updated: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }) // Обновляем дату и время
+        updatedAt: new Date() // Теперь обновляем updatedAt
     };
 
     try {
