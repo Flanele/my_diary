@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alata&family=Anek+Telugu&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.min.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header header-account">
+        <div class="container">
+            <div class="header__inner">
+                <nav class="header-nav">
+
+                    <ul class="header-nav__links">
+                        <li class="header-nav__item">
+                            <a href="./index.html" class="header-nav__link">Home</a>
+                        </li>
+                        <li class="header-nav__item">
+                            <a href="./all_pages.html" class="header-nav__link">My Entries</a>
+                        </li>
+                    </ul>
+
+                </nav>
+
+                <nav class="header-nav"></nav>
+                <ul class="header-nav__account">
+                    <li class="header-nav__account-item">
+                        <a href="./account.html" class="header-nav__link">My Account</a>
+                    </li>
+                    <li class="header-nav__account-item">
+                        <button class="header-nav__login-btn">Login</button>
+                        <dialog class="login__dialog dialog">
+                            <div class="login__dialog-inner">
+                                <form class="login__form" id="login__form">
+                                    <label for="" class="login__username-lable">Username:</label>
+                                    <input class="login__input-username" type="text" id="username" placeholder="Guest">
+                                    <label for="" class="login__password-lable">Password:</label>
+                                    <input class="login__input-password" type="password" id="password"
+                                        placeholder="1234">
+                                    <button class="login__btn" type="submit">Login</button>
+                                </form>
+                            </div>
+                        </dialog>
+                    </li>
+                </ul>
+                </nav>
+            </div>
+        </div>
+        </header>
+
+        <main class="main">
+            <div class="container">               
+                <div class="account">
+                    <div class="account__greetings"></div>
+                    <div class="account__container-inner">
+                        <img src="./images/profile-photo.jpg" alt="" class="account__img">
+                        <div class="account-info">
+                            <p class="account-info__total"></p>
+                            <div class="account-info__btn-box">
+                                <button class="settings">Settings</button>
+                                <button class="logout">Log out</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer"></footer>
+    </div>
+    <script src="./styles.js"></script>
+    <script type="module" src="./login.js"></script>
+    <script src="accont.js"></script>
+    <script type="module" src="./index.js"></script>
+    <script type="module" src="./main.js"></script>
+</body>
+
+</html>

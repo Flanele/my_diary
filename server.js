@@ -180,6 +180,30 @@ app.put('/diary/:id', authenticateToken, async (req, res) => {
     }
 });
 
+app.get('/profile', authenticateToken, async (req, res) => {
+    try {
+        const user = await User.findOne({
+            where: { id: req.user.id }
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const totalEntries = await Page.count({
+            where: { user_id: req.user.id }
+        });
+
+        res.json({
+            username: user.username,
+            totalEntries: totalEntries
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error retrieving profile data');
+    }
+});
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

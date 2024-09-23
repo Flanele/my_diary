@@ -5,6 +5,7 @@ $purple: #45295B;
 $purple-light: #6F486C;
 $purple-link--active: rgba(101, 65, 104, 0.45);
 $purple-form: #603D66;
+$purple-linear-bg: linear-gradient(180deg, rgba(66, 39, 90, 0.4) 0%, rgba(115, 75, 109, 0.4) 50%);
 $button-beige:  rgba(255, 248, 234, 0.4);
 $button-beige--hover: rgba(255, 241, 209, 0.7);
 
@@ -99,6 +100,10 @@ input{
 
 .header-all-pages {
     margin-bottom: 135px;
+}
+
+.header-account{
+    margin-bottom: 100px;
 }
 
 .header-nav__links,
@@ -274,7 +279,9 @@ input{
 .diary__save-entry,
 .diary-edit__save-btn,
 .page__delete-confirmation-btn,
-.login__btn{
+.login__btn,
+.settings,
+.logout{
     background: $button-beige;
     border-radius: 6px;
     color: #fff;
@@ -347,7 +354,7 @@ input{
 
 .links-table td.date {
     width: 110px; 
-    background: linear-gradient(180deg, rgba(66, 39, 90, 0.4) 0%, rgba(115, 75, 109, 0.4) 50%);
+    background: $purple-linear-bg;
     color: #ffff; 
     font-size: 18px;
     padding-left: 10px;
@@ -482,6 +489,55 @@ input{
     }
 }
 
+.account{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 80px;
+    &__greetings{
+        font-size: 32px;
+        color: $purple;
+        margin-bottom: 40px;
+    }
+
+    &__container-inner{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: $purple-linear-bg;
+        width: 100%;
+        border-radius: 6px;
+    }
+}
+
+.account__img{
+    display: inline-block;
+    border-radius: 360px;
+    width: 244px;
+    height: 240px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+.account-info{
+    width: 90%;
+    padding: 40px 80px;
+    margin-bottom: 40px;
+    background: $purple-light;
+    opacity: .75;
+    border-radius: 6px;
+    color: #ffff;
+
+    &__total{
+        margin-bottom: 60px;
+    }
+
+    &__btn-box{
+        display: flex;
+        gap: 30px;
+       justify-content: right;
+    }
+}
 
 /* HTML: <div class="loader"></div> */
 .loader {
