@@ -1,8 +1,11 @@
 const express = require('express');
 const cors = require('cors');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const app = express();
 const sequelize = require('./database');  
 const Page = require('./Page');  
+const User = require('./User');
 const PORT = 8000;
 
 require('dotenv').config();
@@ -32,14 +35,62 @@ function decrypt(text) {
     return decrypted.toString();
 }
 
+const jwtSecret = process.env.JWT_SECRET;
+
+if (!jwtSecret) {
+    console.error('JWT_SECRET не определён в переменных окружения');
+    process.exit(1);
+}
+
+
 sequelize.sync().then(() => console.log('db is ready'));
 
 app.use(cors());
 app.use(express.json());
 
-app.get('/diary', async (req, res) => {
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; // Извлекаем токен после слова "Bearer" (до конца не понимаю, что это и зачем)
+
+    if (token == null) return res.sendStatus(401);  // Если токена нет
+
+    jwt.verify(token, jwtSecret, (err, user) => {
+        if (err) return res.sendStatus(403);  // Если токен недействителен
+        req.user = user;  // Сохраняем пользователя в запросе для использования в других маршрутах
+        next();  // Продолжаем выполнение
+    });
+}
+
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
     try {
-        const entries = await Page.findAll();
+        const user = await User.findOne({ where: { username } });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const validPassword = await bcrypt.compare(password, user.passwordHash);
+        if (!validPassword) {
+            return res.status(403).json({ message: 'Invalid credentials' });
+        }
+
+        // Генерируем JWT токен
+        const token = jwt.sign({ id: user.id, username: user.username }, jwtSecret, { expiresIn: '1h' });
+
+        res.json({ token });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error logging in');
+    }
+});
+
+app.get('/diary', authenticateToken, async (req, res) => {
+    try {
+        const entries = await Page.findAll({
+            where: { user_id: req.user.id } // Показываем только записи текущего пользователя
+        });
         res.status(200).json(entries);
     } catch (error) {
         console.error(error);
@@ -47,10 +98,12 @@ app.get('/diary', async (req, res) => {
     }
 });
 
-app.get('/diary/:id', async (req, res) => {
+app.get('/diary/:id', authenticateToken, async (req, res) => {
     const requestedId = parseInt(req.params.id);
     try {
-        const entry = await Page.findOne({ where: { id: requestedId } });
+        const entry = await Page.findOne({
+            where: { id: requestedId, user_id: req.user.id } // Учитываем только записи текущего пользователя
+        });
         if (entry) {
             const decryptedText = decrypt(entry.text);
             res.status(200).json({ ...entry.toJSON(), text: decryptedText });
@@ -63,7 +116,7 @@ app.get('/diary/:id', async (req, res) => {
     }
 });
 
-app.post('/diary', async (req, res) => {
+app.post('/diary', authenticateToken, async (req, res) => {
     const { title, text } = req.body;
     const encryptedText = encrypt(text);
     const entryTitle = title || new Date().toLocaleDateString('en-US', {
@@ -73,7 +126,8 @@ app.post('/diary', async (req, res) => {
     });
 
     try {
-        const newEntry = await Page.create({ title: entryTitle, text: encryptedText });
+        // Запись создается от имени аутентифицированного пользователя
+        const newEntry = await Page.create({ title: entryTitle, text: encryptedText, user_id: req.user.id });
         res.status(201).json(newEntry);
     } catch (error) {
         console.error(error);
@@ -82,34 +136,50 @@ app.post('/diary', async (req, res) => {
 });
 
 
-app.delete('/diary/:id', async (req, res) => {
+app.delete('/diary/:id', authenticateToken, async (req, res) => {
     const id = parseInt(req.params.id);
-    const entry = await Page.findOne({ where: { id } });
 
-    if (!entry) {
-        return res.status(404).json({ error: 'Entry not found' });
+    try {
+        const entry = await Page.findOne({
+            where: { id, user_id: req.user.id } // Удаление только своих записей
+        });
+
+        if (!entry) {
+            return res.status(404).json({ error: 'Entry not found' });
+        }
+
+        await Page.destroy({ where: { id } });
+        res.status(200).json({ message: 'Entry deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error deleting entry');
     }
-
-    await Page.destroy({ where: { id } });
-    res.status(200).json({ message: 'Entry deleted successfully' });
 });
 
-app.put('/diary/:id', async (req, res) => {
+app.put('/diary/:id', authenticateToken, async (req, res) => {
     const id = parseInt(req.params.id);
     const { title, text } = req.body;
 
-    const entry = await Page.findOne({ where: { id } });
+    try {
+        const entry = await Page.findOne({
+            where: { id, user_id: req.user.id } // Проверяем, что запись принадлежит текущему пользователю
+        });
 
-    if (!entry) {
-        return res.status(404).json({ error: 'Entry not found' });
+        if (!entry) {
+            return res.status(404).json({ error: 'Entry not found' });
+        }
+
+        if (title) entry.title = title;
+        if (text) entry.text = encrypt(text);
+
+        await entry.save();
+        res.status(200).json(entry);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error updating entry');
     }
-
-    if (title) entry.title = title;
-    if (text) entry.text = encrypt(text);
-
-    await entry.save();
-    res.status(200).json(entry);
 });
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

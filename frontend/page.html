@@ -86,6 +86,17 @@
                     </li>
                     <li class="header-nav__account-item">
                         <button class="header-nav__login-btn">Login</button>
+                        <dialog class="login__dialog dialog">
+                            <div class="login__dialog-inner">
+                                <form class="login__form" id="login__form">
+                                    <label for="" class="login__username-lable">Username:</label>
+                                    <input class="login__input-username" type="text" id="username" placeholder="Guest">
+                                    <label for="" class="login__password-lable">Password:</label>
+                                    <input class="login__input-password" type="password" id="password" placeholder="1234">
+                                     <button class="login__btn" type="submit">Login</button>
+                                </form>
+                            </div>
+                        </dialog>
                     </li>
                 </ul>
             </nav>
@@ -156,7 +167,9 @@
         <footer class="footer"></footer>
     </div>
     <script src="./styles.js"></script>
+     <script type="module" src="./login.js"></script>
     <script type="module" src="./main.js"></script>
+   
 </body>
 
 

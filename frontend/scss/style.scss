@@ -97,6 +97,10 @@ input{
     margin-bottom: 180px;
 }
 
+.header-all-pages {
+    margin-bottom: 135px;
+}
+
 .header-nav__links,
 .header-nav__account {
     display: flex;
@@ -216,7 +220,8 @@ input{
 }
 
 .diary__dialog-inner,
-.diary-edit__dialog-inner {
+.diary-edit__dialog-inner,
+.login__dialog-inner {
     max-width: 1220px;
     display: flex;
     flex-direction: column;
@@ -233,6 +238,14 @@ input{
     flex-direction: column;
     border-radius: 6px;
     gap: 45px;
+}
+
+.login__form {
+    display: flex;
+    flex-direction: column;
+    border-radius: 6px;
+    gap: 30px;
+
 }
 
 .diary__button-box,
@@ -260,7 +273,8 @@ input{
 
 .diary__save-entry,
 .diary-edit__save-btn,
-.page__delete-confirmation-btn{
+.page__delete-confirmation-btn,
+.login__btn{
     background: $button-beige;
     border-radius: 6px;
     color: #fff;
@@ -270,6 +284,16 @@ input{
         background: $button-beige--hover;
     }
 
+}
+
+.login__btn {
+    margin-top: 30px;
+}
+
+.login__username-lable,
+.login__password-lable {
+    font-size: 20px;
+   
 }
 
 .main__all-pages{

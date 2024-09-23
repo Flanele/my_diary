@@ -1,4 +1,5 @@
 import { openModalAndBlockScroll, closeModal } from './modal.js';
+import { login } from './login.js';
 
 // Переменные для управления модальными окнами
 const deleteBtn = document.querySelector('.page__delete-btn');
@@ -12,7 +13,9 @@ const editDialog = document.querySelector('.diary-edit__dialog');
 const editCloseBtn = document.querySelector('.diary-edit__close-modal');
 const editSaveBtn = document.querySelector('.diary-edit__save-btn');
 
+
 document.addEventListener('DOMContentLoaded', async () => {
+
     // Показываем прелоадер перед началом загрузки данных
     const preloader1 = document.getElementById('preloader1');
     preloader1.classList.remove('hidden');
@@ -46,7 +49,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function getDiaryPage(id) {
     const url = `http://localhost:8000/diary/${id}`;
-    const response = await fetch(url);
+    const token = localStorage.getItem('token'); // Получаем токен из localStorage
+    const response = await fetch(url, {
+        headers: {
+            'Authorization': `Bearer ${token}` // Добавляем заголовок авторизации
+        }
+    });
 
     if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -55,6 +63,7 @@ async function getDiaryPage(id) {
     const data = await response.json();
     return data;
 }
+
 
 editBtn.addEventListener('click', async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -89,9 +98,14 @@ deleteConfirmation.addEventListener('click', async () => {
     const url = `http://localhost:8000/diary/${id}`;
     console.log(`Sending DELETE request to URL: ${url}`); // Debugging line
 
+    const token = localStorage.getItem('token'); // Получаем токен из localStorage
+
     try {
         const response = await fetch(url, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}` // Добавляем заголовок авторизации
+            }
         });
 
         if (response.ok) {
@@ -108,7 +122,7 @@ deleteConfirmation.addEventListener('click', async () => {
 
 editSaveBtn.addEventListener('click', async () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id'); // Изменено с 'page' на 'id'
+    const id = urlParams.get('id');
     const title = document.querySelector('.diary-edit__title-input').value;
     const text = tinymce.get('text').getContent(); 
 
@@ -127,14 +141,17 @@ editSaveBtn.addEventListener('click', async () => {
     const updatedData = {
         title,
         text,
-        updatedAt: new Date() // Теперь обновляем updatedAt
+        updatedAt: new Date()
     };
+
+    const token = localStorage.getItem('token'); // Получаем токен из localStorage
 
     try {
         const response = await fetch(url, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // Добавляем заголовок авторизации
             },
             body: JSON.stringify(updatedData)
         });

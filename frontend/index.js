@@ -1,9 +1,11 @@
 import { openModalAndBlockScroll, closeModal } from './modal.js';
+import { login } from './login.js';
 
 const dialog = document.querySelector('.diary__dialog');
 const openBtn = document.querySelector('.diary__adding-entry-btn');
 const closeBtn = document.querySelector('.diary__close-modal');
 const saveBtn = document.querySelector('.diary__save-entry');
+
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchDiaryEntries();
@@ -13,12 +15,30 @@ document.querySelector('#title').placeholder = new Date().toLocaleDateString('en
 
 async function fetchDiaryEntries() {
     const preloader2 = document.getElementById('preloader2');
-    try {
+    const errorMessage = document.getElementById('error-message');
+
+    errorMessage.textContent = '';
+    errorMessage.classList.add('hidden');
+
+    if (preloader2) {
         preloader2.classList.remove('hidden');
-        
-        const response = await fetch('http://localhost:8000/diary');
+    }
+
+    try {
+        const response = await fetch('http://localhost:8000/diary', {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            if (response.status === 401) {
+                throw new Error('You need to log in to view the diary entries.');
+            } else if (response.status === 403) {
+                throw new Error('Access denied. Please log in to continue reading.');
+            } else {
+                throw new Error(`Error fetching entries: ${response.status}`);
+            }
         }
 
         const entries = await response.json();
@@ -26,10 +46,16 @@ async function fetchDiaryEntries() {
 
     } catch (error) {
         console.error('Error fetching diary entries:', error);
+        // Выводим сообщение об ошибке на страницу
+        errorMessage.textContent = error.message;
+        errorMessage.classList.remove('hidden');
     } finally {
-        preloader2.classList.add('hidden');
+        if (preloader2) {
+            preloader2.classList.add('hidden');
+        }
     }
 }
+
 
 function generateLinks(entries) {
     const container = document.getElementById('links-container');
@@ -70,23 +96,32 @@ saveBtn.addEventListener('click', async () => {
     }
 
     if (text) {
-        const response = await fetch('http://localhost:8000/diary', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title, 
-                text
-            })
-        });
+        try {
+            const response = await fetch('http://localhost:8000/diary', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}` // Добавляем токен
+                },
+                body: JSON.stringify({
+                    title, 
+                    text
+                })
+            });
 
-        if (response.ok) {
-            alert('Entry saved successfully!');
-            closeModal(dialog); 
-            location.reload(); 
-        } else {
-            alert('Error saving entry.');
+            if (response.status === 401 || response.status === 403) {
+                throw new Error('You must be logged in to save entries.');
+            }
+
+            if (response.ok) {
+                alert('Entry saved successfully!');
+                closeModal(dialog);
+                location.reload();
+            } else {
+                throw new Error('Error saving entry.');
+            }
+        } catch (error) {
+            alert(error.message); // Выводим сообщение об ошибке
         }
     } else {
         alert('Please fill in the text field.');
