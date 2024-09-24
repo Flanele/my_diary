@@ -1,13 +1,5 @@
 @import 'reset';
-
-$purple-gradient: linear-gradient(90deg, #42275A 0%, #734B6D 73.6%);
-$purple: #45295B;
-$purple-light: #6F486C;
-$purple-link--active: rgba(101, 65, 104, 0.45);
-$purple-form: #603D66;
-$purple-linear-bg: linear-gradient(180deg, rgba(66, 39, 90, 0.4) 0%, rgba(115, 75, 109, 0.4) 50%);
-$button-beige:  rgba(255, 248, 234, 0.4);
-$button-beige--hover: rgba(255, 241, 209, 0.7);
+@import 'vars';
 
 html, body{
     height: 100%;
@@ -20,15 +12,14 @@ html, body{
 }
 
 .main {
-	flex: 1 0 auto;
-    
+	flex: 1 0 auto;   
 }
 
 .main__home {
      position: relative;
 
      &::after{
-        content: url('/frontend/images/bg-decor.svg');
+        content: var(--bg-decor);
         z-index: -2;
         position: absolute;
         top: -100px;
@@ -40,12 +31,13 @@ html, body{
 	flex: 0 0 auto;
 }
 
+
 body {
     font-family: "Alata", "Anek Telugu", sans-serif;
     font-weight: 400;
     font-style: normal;
     font-size: 24px;
-    background-color: #ffff;
+    background-color: var(--background-color); 
     line-height: 37px;
 }
 
@@ -75,15 +67,25 @@ textarea {
 
 input{
     height: 50px;
-    color: $purple;
+    color: var(--primary-color);
+    border-radius: 6px;
     &::placeholder{
-        color: $purple;
+        color: var(--primary-color);
     }
 }
 
+.dark-theme input{
+    background-color: #222f3e;
+    border-color: #161f29;
+    color: #ffff;
+
+    &::placeholder {
+        color: #ffffff;
+    }
+}
 
 .header {
-    background: $purple-gradient;
+    background: var(--gradient);
     padding-top: 30px;
     padding-bottom: 21px;
     margin-bottom: 120px;
@@ -103,7 +105,7 @@ input{
 }
 
 .header-account{
-    margin-bottom: 100px;
+    margin-bottom: 80px;
 }
 
 .header-nav__links,
@@ -121,14 +123,14 @@ input{
 .header-nav__login-btn {
     width: 112px;
     height: 50px;
-    background: rgba(25, 19, 19, 0.28);
+    background: var(--button-nav);
     border-radius: 15px;
     position: relative;
     padding-bottom: 10px;
     padding-top: 5px;
     top: -5px;
     &:hover{
-        background: rgba(25, 19, 19, 0.5);
+        background: var(--button-nav--hover);
         color: rgba(255, 248, 234, 0.98);
     }
 }
@@ -140,20 +142,21 @@ input{
 }
 
 .header-nav__link.active {
-    background: $purple-link--active;
-    padding: 35px 15px 25px;  
+    background: var(--link--active); 
+    padding: 36px 15px 26px;  
 }
 
 .footer {
-    background-color: $purple;
-    min-height: 95px;
+    flex: 0 0 auto;
+    background-color: var(--primary-color); 
+    min-height: 95px; 
 }
 
 
 .main__inner {
     width: 100%;
     height: 277px;
-    background: $purple-gradient;
+    background: var(--gradient);
     position: relative;
     border-radius: 6px;
     background-size: 180% 160%;
@@ -164,7 +167,7 @@ input{
     }
 
     &::after{
-        content: url('/frontend/images/diary-img.png');
+        content: var(--main-img);
         position: absolute;
         width: 417px;
         height: 367px;
@@ -183,7 +186,7 @@ input{
         z-index: -1;
         width: 395px;
         height: 388px;
-        background: $purple-light;
+        background: var(--secondary-color-light);
         border-radius: 360px;
         right: 60px;
         top: 33px;
@@ -192,9 +195,25 @@ input{
    
 }
 
+.dark-theme .main__inner{
+
+    &:hover{
+        background-position: 60% 10%;
+    }
+
+    &::after{
+    transition: transform 1s cubic-bezier(0.5, 0.3, 0.2, 1);
+    }
+
+    &::after{
+        right: 30px;
+        top: 25px;
+    }
+}
+
 .diary__adding-entry-btn {
     width: 264px;
-    background: $button-beige;
+    background: var(--button-color);
     border-radius: 15px;
     color: #ffff;
     padding: 12px 25px;
@@ -203,15 +222,15 @@ input{
     transition: all .3s ease;
 
     &:hover {
-       background: $button-beige--hover;
+       background: var(--button--hover);
     }
-
 }
+
 
 .dialog{
     border: none;
     border-radius: 6px;
-    background-color: $purple-form;
+    background-color: var(--color-form);
     color: #ffff;
 
     &::backdrop {
@@ -264,14 +283,15 @@ input{
 
 .diary__close-modal,
 .diary-edit__close-modal,
-.page__close-modal{
-    background: $purple-link--active;
+.page__close-modal {
+    background: var(--link--active); 
     border-radius: 6px;
     color: #fff;
     padding: 10px 30px;
     transition: all .3s ease;
-    &:hover{
-        background-color: $purple-light;
+
+    &:hover {
+        background-color: var(--secondary-color-light); 
         color: rgba(255, 248, 234, 0.98);
     }
 }
@@ -281,16 +301,16 @@ input{
 .page__delete-confirmation-btn,
 .login__btn,
 .settings,
-.logout{
-    background: $button-beige;
+.logout {
+    background: var(--button-color); 
     border-radius: 6px;
     color: #fff;
     padding: 10px 30px;
     transition: all .3s ease;
-    &:hover{
-        background: $button-beige--hover;
-    }
 
+    &:hover {
+        background: var(--button--hover); 
+    }
 }
 
 .login__btn {
@@ -322,7 +342,7 @@ input{
     height: 490px;
     width: 100%;
     z-index: -1;
-    background: linear-gradient(180deg, rgba(66, 39, 90, 0.4) 0%, rgba(115, 75, 109, 0.4) 40%);
+    background: var(--linear-bg);
     border-radius: 6px;
     padding-top: 40px;
     padding-bottom: 40px;
@@ -354,7 +374,7 @@ input{
 
 .links-table td.date {
     width: 110px; 
-    background: $purple-linear-bg;
+    background: var(--linear-bg);
     color: #ffff; 
     font-size: 18px;
     padding-left: 10px;
@@ -375,10 +395,10 @@ input{
 .diary__btn-all-pages {
     margin-top: 45px;
     margin-left: 39%;
-    background: $purple-link--active;
+    background: var(--link--active);
     
     &:hover{
-        background: $purple-light;
+        background: var(--secondary-color-light);
         opacity: .8;
     }
 }
@@ -386,7 +406,7 @@ input{
 .page {
    position: relative;
    z-index: 1;
-   margin-bottom: 60px;
+   margin-bottom: 80px;
    min-height: 800px;
    display: flex;
    flex-direction: column;
@@ -400,14 +420,14 @@ input{
         left: 0;
         right: 0;
         bottom: 0;
-        background: url(/frontend/images/page-bg.jpg) center center no-repeat;
+        background: var(--page-bg) center center no-repeat;
         background-size: cover;
         opacity: 0.7; 
         z-index: -1; 
    }
 
    &::after{
-        content: url(/frontend/images/diary-img-small.png);
+        content: var(--small-img);
         position: relative;
         left: -50px;
         opacity: 0.9;
@@ -415,11 +435,22 @@ input{
    }
 }
 
+
+.dark-theme .text,
+.dark-theme .updated,
+.dark-theme .page__time {
+    color: #ffffffcc;
+}
+
 .title{
     font-size: 32px;
-    color: $purple;
+    color: var(--primary-color);
     text-align: center;
     margin-bottom: 120px;
+}
+
+.dark-theme .title{
+    padding-top: 30px;
 }
 
 .text{
@@ -461,7 +492,7 @@ input{
     gap: 20px;
     justify-content: end;
     padding-right: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 100px;
 
 }
 
@@ -481,6 +512,14 @@ input{
     }
 }
 
+.dark-theme .page__edit-btn{
+    background-color: #66658e;
+
+    &:hover{
+        background-color: #66658ea4;
+    }
+}
+
 .page__delete-btn{
     background-color: #F9E2AF;
 
@@ -496,7 +535,7 @@ input{
     margin-bottom: 80px;
     &__greetings{
         font-size: 32px;
-        color: $purple;
+        color: var(--primary-color);
         margin-bottom: 40px;
     }
 
@@ -504,13 +543,18 @@ input{
         display: flex;
         flex-direction: column;
         align-items: center;
-        background: $purple-linear-bg;
+        background: var(--linear-bg);
         width: 100%;
         border-radius: 6px;
     }
 }
 
+.dark-theme .account__greeting{
+    color: var(--secondary-color-light);
+}
+
 .account__img{
+    background-image: var(--profile-img);
     display: inline-block;
     border-radius: 360px;
     width: 244px;
@@ -523,7 +567,7 @@ input{
     width: 90%;
     padding: 40px 80px;
     margin-bottom: 40px;
-    background: $purple-light;
+    background: var(--secondary-color-light);
     opacity: .75;
     border-radius: 6px;
     color: #ffff;
@@ -537,6 +581,37 @@ input{
         gap: 30px;
        justify-content: right;
     }
+}
+
+.account-info__btn-box {
+    position: relative;
+}
+
+
+.settings-dropdown {
+    top: 0;
+    right: 0;
+    position: absolute;
+    z-index: 1000; 
+    right: 36%;
+    bottom: 20%;
+
+    &__list {
+        list-style: none;
+        background-color: var(--button-nav);
+        padding: 20px;
+        border-radius: 6px;
+    }
+
+}
+
+.theme-toggle{
+    border-radius: 6px;
+    background-color: transparent;
+    color: #ffff;
+    padding: 8px 15px;
+    font-size: 18px;
+
 }
 
 /* HTML: <div class="loader"></div> */

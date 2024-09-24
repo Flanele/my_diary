@@ -34,12 +34,40 @@ async function fetchUserProfile() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', fetchUserProfile);
+document.addEventListener('DOMContentLoaded', () => {
+    fetchUserProfile();
+
+    // Проверяем сохранённую тему и применяем её
+    const savedTheme = localStorage.getItem('theme'); // Получаем значение из localStorage
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme'); // Применяем темную тему
+    }
+
+    const settingsButton = document.querySelector('.settings');
+    const settingsDropdown = document.querySelector('.settings-dropdown');
+    const themeToggleButton = document.querySelector('.theme-toggle');
+
+    settingsButton.addEventListener('click', (event) => {
+        event.stopPropagation(); 
+        settingsDropdown.classList.toggle('hidden');
+    });
+
+    themeToggleButton.addEventListener('click', (event) => {
+        event.stopPropagation();  
+        const isDarkTheme = document.body.classList.toggle('dark-theme'); // Переключаем класс dark-theme
+        localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');  // Сохраняем текущее состояние темы
+        changeThemeOfEditor(isDarkTheme);  
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!settingsDropdown.contains(event.target) && event.target !== settingsButton) {
+            settingsDropdown.classList.add('hidden');  
+        }
+    });
+});
 
 const logoutBtn = document.querySelector('.logout');
-
 logoutBtn.addEventListener('click', () => {
     localStorage.removeItem('token');
-    
     window.location.href = 'index.html'; 
 });

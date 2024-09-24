@@ -1,0 +1,59 @@
+$purple-gradient: linear-gradient(90deg, #42275A 0%, #734B6D 73.6%);
+$purple: #45295B;
+$purple-light: #6F486C;
+$purple-link--active: rgba(101, 65, 104, 0.45);
+$purple-form: #603D66;
+$purple-linear-bg: linear-gradient(180deg, rgba(66, 39, 90, 0.4) 0%, rgba(115, 75, 109, 0.4) 50%);
+$button-beige:  rgba(255, 248, 234, 0.4);
+$button-beige--hover: rgba(255, 241, 209, 0.7);
+$button-nav-color: rgba(25, 19, 19, 0.28);
+$button-nav--hover: rgba(25, 19, 19, 0.5);
+
+$green-gradient: linear-gradient(90deg, #43C6AC 0%, #191654 95.1%);
+$dark-green: #223C67;
+$green-light: #34868c;
+$green-link--active: rgba(21, 106, 127, 0.42);
+$green-form: #2e6f81;
+$green-linear-bg: linear-gradient(180deg, rgba(67, 198, 172, 0.4) 0%, rgba(25, 22, 84, 0.4) 100%);
+$button-gray: rgba(86, 101, 96, 0.59);
+$button-gray--hover: #b2b5b994;
+
+
+:root {
+    --gradient: #{$purple-gradient};
+    --primary-color: #{$purple};
+    --secondary-color-light: #{$purple-light};
+    --button-color: #{$button-beige};
+    --background-color: #fff;
+    --link--active: #{$purple-link--active};
+    --color-form: #{$purple-form};
+    --linear-bg: #{$purple-linear-bg};
+    --button--hover: #{$button-beige--hover};
+    --button-nav: #{$button-nav-color};
+    --button-nav--hover: #{$button-nav--hover};
+    --main-img: url('/frontend/images/diary-img.png');
+    --bg-decor: url('/frontend/images/bg-decor.svg');
+    --page-bg: url('/frontend/images/page-bg.jpg');
+    --small-img: url('/frontend/images/diary-img-small.png');
+    --profile-img: url('/frontend/images/profile-photo.jpg');
+}
+
+.dark-theme {
+    --gradient: #{$green-gradient};
+    --primary-color: #{$dark-green};
+    --secondary-color-light: #{$green-light};
+    --button-color: #{$button-gray};
+    --background-color: #190C32;
+    --link--active: #{$green-link--active};
+    --color-form: #{$green-form};
+    --linear-bg: #{$green-linear-bg};
+    --button--hover: #{$button-gray--hover};
+    --main-img: url('/frontend/images/diary-dark-theme-img.png');
+    --bg-decor: url('/frontend/images/dark-theme-bg-decor.svg');
+    --page-bg: url('/frontend/images/page-bg-dark.jpg');
+    --small-img: url('/frontend/images/diary-img-dark-theme-small.png');
+    --profile-img: url('/frontend/images/profile-photo-dark-theme.jpg');
+}
+
+
+
